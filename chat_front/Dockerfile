@@ -3,6 +3,7 @@
 FROM python:3.6.4-alpine3.7
 
 # RUN apt-get update && apt-get install -y git gcc python3-dev
+# dummy commit
 
 RUN apk add --update curl gcc g++ git libffi-dev openssl-dev python3-dev build-base linux-headers \
     && rm -rf /var/cache/apk/*
