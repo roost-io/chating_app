@@ -1,0 +1,5 @@
+Access the application through this URL:
+
+    http://{{ .Values.namespace }}.{{ .Values.services.chat_front.serviceName }}.{{ .Values.clusterIP }}.{{ .Values.clusterDomain }}
+
+It may take a few minutes for the application to be available.
