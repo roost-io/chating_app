@@ -1,6 +1,6 @@
 from __future__ import unicode_literals, print_function
 
-import uuid
+import uuid, os
 
 from flask import current_app, jsonify
 from flask import session
@@ -18,13 +18,14 @@ app = ms.create_app()
 
 users_connected = []
 
+chat_db_host = os.environ["CHAT_DB_HOST"]
 
 def get_messages():
-    return ms.requests.get_for_object(ms.config.service_host)
+    return ms.requests.get_for_object(chat_db_host)
 
 
 def post_message(data):
-    return ms.requests.post_for_object(ms.config.service_host, data=data)
+    return ms.requests.post_for_object(chat_db_host, data=data)
 
 
 @app.route("/")

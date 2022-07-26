@@ -14,7 +14,7 @@ app = ms.create_app()
 
 @app.route("/")
 def index():
-    return render_template('index.html', **{"service_host": ms.config.service_host})
+    return render_template('index.html', **{"service_host": os.environ["CHAT_SERVICE_HOST"]})
 
 
 @app.context_processor

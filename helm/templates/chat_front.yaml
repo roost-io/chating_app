@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chat_front
+  name: chat-front
   namespace: '{{ .Values.namespace }}'
   labels:
     app: chat_front
     type: roost-example
-  spec:
-  replicas: '{{ .Values.services.chat_front.replicaCount }}'
+spec:
+  replicas: {{ .Values.services.chat_front.replicaCount }}
   selector:
     matchLabels:
       app: chat_front
@@ -19,11 +19,19 @@ metadata:
         type: roost-example
     spec:
       containers:
-        - name: chat_front
+        - name: chat-front
           image:
             '{{- printf "%s/%s:%s" .Values.registry
             .Values.services.chat_front.imageName .Values.tag -}}'
           imagePullPolicy: '{{ .Values.imagePullPolicy }}'
+          stdin: true
+          tty: true
+          env:
+            - name: CHAT_SERVICE_HOST
+              value:
+                'http://{{ .Values.namespace }}.{{
+                .Values.services.chat_svc.serviceName }}.{{ .Values.clusterIP
+                }}.{{ .Values.clusterDomain }}'
           ports:
             - name: http
               containerPort: 8080
@@ -49,7 +57,7 @@ metadata:
 spec:
   # type: { { .Values.service.type } } # ClusterIP
   ports:
-    - port: '{{ .Values.services.chat_front.serviceName }}'
+    - port: {{ .Values.services.chat_front.servicePort }}
       targetPort: http
       protocol: TCP
       name: http

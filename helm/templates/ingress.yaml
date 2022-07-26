@@ -1,14 +1,28 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-  name: voting-app
-  namespace: { { .Values.namespace } }
+  name: chating-app
+  namespace: '{{ .Values.namespace }}'
+  labels:
+    app: chating-app
+    type: roost-example
 spec:
   ingressClassName: nginx
   rules:
     - host:
-        '{{ .Values.namespace }}.{{ .Values.services.voter.serviceName }}.{{
+        '{{ .Values.namespace }}.{{ .Values.services.chat_front.serviceName
+        }}.{{ .Values.clusterIP }}.{{ .Values.clusterDomain }}'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: '{{ .Values.services.chat_front.serviceName }}'
+                port:
+                  number: {{ .Values.services.chat_front.servicePort }}
+    - host:
+        '{{ .Values.namespace }}.{{ .Values.services.chat_svc.serviceName }}.{{
         .Values.clusterIP }}.{{ .Values.clusterDomain }}'
       http:
         paths:
@@ -16,11 +30,11 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: { { .Values.services.voter.serviceName } }
+                name: '{{ .Values.services.chat_svc.serviceName }}'
                 port:
-                  number: 80
+                  number: {{ .Values.services.chat_svc.servicePort }}
     - host:
-        '{{ .Values.namespace }}.{{ .Values.services.ballot.serviceName }}.{{
+        '{{ .Values.namespace }}.{{ .Values.services.chat_db.serviceName }}.{{
         .Values.clusterIP }}.{{ .Values.clusterDomain }}'
       http:
         paths:
@@ -28,31 +42,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: { { .Values.services.ballot.serviceName } }
+                name: '{{ .Values.services.chat_db.serviceName }}'
                 port:
-                  number: 80
-    - host:
-        '{{ .Values.namespace }}.{{ .Values.services.ecserver.serviceName }}.{{
-        .Values.clusterIP }}.{{ .Values.clusterDomain }}'
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: { { .Values.services.ecserver.serviceName } }
-                port:
-                  number: 80
-    - host:
-        '{{ .Values.namespace }}.{{
-        .Values.services.electionCommission.serviceName }}.{{ .Values.clusterIP
-        }}.{{ .Values.clusterDomain }}'
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: { { .Values.services.electionCommission.serviceName } }
-                port:
-                  number: 80
+                  number: {{ .Values.services.chat_db.servicePort }}

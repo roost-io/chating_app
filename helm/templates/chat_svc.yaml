@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chat_svc
+  name: chat-svc
   namespace: '{{ .Values.namespace }}'
   labels:
     app: chat_svc
     type: roost-example
-  spec:
-  replicas: '{{ .Values.services.chat_svc.replicaCount }}'
+spec:
+  replicas: {{ .Values.services.chat_svc.replicaCount }}
   selector:
     matchLabels:
       app: chat_svc
@@ -19,11 +19,18 @@ metadata:
         type: roost-example
     spec:
       containers:
-        - name: chat_svc
+        - name: chat-svc
           image:
             '{{- printf "%s/%s:%s" .Values.registry
             .Values.services.chat_svc.imageName .Values.tag -}}'
           imagePullPolicy: '{{ .Values.imagePullPolicy }}'
+          stdin: true
+          tty: true
+          env:
+            - name: CHAT_DB_HOST
+              value:
+                'http://{{ .Values.namespace }}.{{ .Values.services.chat_db.serviceName
+                }}.{{ .Values.clusterIP }}.{{ .Values.clusterDomain }}'
           ports:
             - name: http
               containerPort: 8080
@@ -49,7 +56,7 @@ metadata:
 spec:
   # type: { { .Values.service.type } } # ClusterIP
   ports:
-    - port: '{{ .Values.services.chat_svc.serviceName }}'
+    - port: {{ .Values.services.chat_svc.servicePort }}
       targetPort: http
       protocol: TCP
       name: http
