@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat_db
+  namespace: '{{ .Values.namespace }}'
+  labels:
+    app: chat_db
+    type: roost-example
+  spec:
+  replicas: '{{ .Values.services.chat_db.replicaCount }}'
+  selector:
+    matchLabels:
+      app: chat_db
+      type: roost-example
+  template:
+    metadata:
+      labels:
+        app: chat_db
+        type: roost-example
+    spec:
+      containers:
+        - name: chat_db
+          image:
+            '{{- printf "%s/%s:%s" .Values.registry
+            .Values.services.chat_db.imageName .Values.tag -}}'
+          imagePullPolicy: '{{ .Values.imagePullPolicy }}'
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: '{{ .Values.services.chat_db.serviceName }}'
+  namespace: '{{ .Values.namespace }}'
+  labels:
+    app: chat_db
+    type: roost-example
+spec:
+  # type: { { .Values.service.type } } # ClusterIP
+  ports:
+    - port: '{{ .Values.services.chat_db.servicePort }}'
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: chat_db
+    type: roost-example

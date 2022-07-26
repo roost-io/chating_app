@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: apsgangwar/chat_svc:latest
-  tag: v1
+  repository: apsgangwar/chat_svc
+  tag: latest
   pullPolicy: IfNotPresent
 
 nameOverride: ''
