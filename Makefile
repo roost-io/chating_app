@@ -13,5 +13,5 @@ push:
 deploy:
 	helm upgrade --install chating-app ./helm_chart
 
-delete:
+clean:
 	helm uninstall chating-app

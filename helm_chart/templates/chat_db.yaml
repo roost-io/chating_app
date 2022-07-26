@@ -49,7 +49,6 @@ metadata:
     app: chat_db
     type: roost-example
 spec:
-  # type: { { .Values.service.type } } # ClusterIP
   ports:
     - port: {{ .Values.services.chat_db.servicePort }}
       targetPort: http
