@@ -1,6 +1,6 @@
-{% extends "layout.html" %}
-{% block content %}
-<div class="row">
+{% extends "layout.html" %} {% block content %}
+
+<div class="row" style="display: none">
   <div class="col s12 m12">
     <!--<div id="welcome"></div>-->
     <div id="question">
@@ -10,48 +10,48 @@
     </div>
   </div>
 </div>
-<div class="row center" id="start-off">waiting to connect...</div>
-<div class="row" id="start-on" style="display: none">
-  <div id="msgs" class="row"></div>
+<div class="row center" id="start-off">Waiting to Connect...</div>
+<div class="row" id="start-on" style="display: none; margin: 0">
+  <div id="msgs" class="row" style="margin: 0"></div>
 </div>
 
 <!-- Modal Structure -->
-<div id="modal1" class="modal">
+<div id="modal1" class="modal" style="margin-top: 10%">
   <div class="modal-content">
-    <div id="msg"></div>
+    <div id="msg" style="color: #212336; font-size: 20px"></div>
   </div>
   <div class="modal-footer">
     <a
       href="#!"
-      class="modal-action modal-close waves-effect waves-green btn-flat"
+      class="modal-action modal-close waves-effect btn-flat"
+      style="color: #212336; font-size: 16px; font-weight: 700"
       >Agree</a
     >
   </div>
 </div>
 
-{% endblock %}
-{% block footer %}
-<div class="container">
-  <div class="row">
-    <div class="col s12 m12">
-      <form id="send_msg">
-        <div class="input-field">
-          <input id="msg_input" />
-        </div>
-        <button
-          type="submit"
-          class="btn-large waves-effect waves-light orange right"
-        >
-          Send message
-        </button>
-      </form>
+{% endblock %} {% block footer %}
+
+<div class="container" style="height: 110px">
+  <form id="send_msg" style="display: flex; align-items: center">
+    <div class="input-field" style="flex-grow: 1">
+      <input id="msg_input" />
     </div>
-  </div>
+    <button
+      type="submit"
+      class="btn-large waves-effect waves-light orange right"
+      style="margin-left: 24px; background-color: #212336 !important"
+    >
+      Send Message
+    </button>
+  </form>
 </div>
-{% endblock %}
-{% block js %}
+
+{% endblock %} {% block js %}
+
 <script
   type="text/javascript"
   src="{{ url_for('static', filename='js/pyquiz_sockets.js') }}"
 ></script>
+
 {% endblock %}
