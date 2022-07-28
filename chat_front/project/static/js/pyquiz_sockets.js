@@ -98,6 +98,11 @@ $(document).ready(function () {
     $('#username').text(username);
     socket.emit('log-in', { username: username });
     sessionStorage.setItem('current_user', username);
+    $('#status_icon').css('background-color', 'green');
+  });
+
+  socket.on('disconnect', function () {
+    $('#status_icon').css('background-color', 'red');
   });
 
   socket.on('users_connected', function (lenUsers) {

@@ -1,14 +1,3 @@
-# Chat microservices
-
-The objetive of this project is to show a real example of our library
-[PyMS](https://github.com/python-microservices/pyms),
-[the template](https://github.com/python-microservices/microservices-template)
-and the
-[scaffold](https://github.com/python-microservices/microservices-scaffold).
-
-The tutorial of "how to create a cluster" is based of this
-[bitnami tutorial](https://docs.bitnami.com/kubernetes/get-started-kubernetes/)
-
 # Chating-App
 
 This is a example of 3 microservices and a database working in a Kubernetes
@@ -35,7 +24,11 @@ docker build -t chat_svc:v1 ./chat_svc/
 docker build -t chat_front:v1 ./chat_front/
 ```
 
-2. Update the clusterIp in helm chart Values.yaml
+2. Update the clusterIP in helm chart `values.yaml`
+
+```
+clusterIP: 13.233.122.155
+```
 
 3. Check your helm chart:
 
@@ -49,6 +42,8 @@ helm upgrade --dry-run --install chating-app ./helm_chart/
 helm upgrade --install chating-app ./helm_chart/
 ```
 
+![](docs/imgs/helm.png)
+
 5. Verify that all pods are OK:
 
 ```bash
@@ -57,6 +52,12 @@ kubectl get pods
 
 ![](docs/imgs/pods.png)
 
-5. Open the clusterIP:front_svc_port and see the magic! ;)
+5. Open the link as mentioned and see the magic :)
+   `http://namespace.chat_front_serviceName.clusterIP.clusterDomain`
 
 ![](docs/imgs/front_ms.png)
+
+---
+
+This project of chating-app is inspired from this
+[PyMS example](https://github.com/python-microservices/microservices-chat).
