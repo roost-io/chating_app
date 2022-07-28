@@ -119,11 +119,12 @@ $(document).ready(function () {
     console.log('Message recived');
     console.log(data);
     if (data.welcome) {
-      var current_user = sessionStorage.getItem('current_user');
-      if (`Hola ${current_user}` !== data.welcome) {
+      var first_welcome = sessionStorage.getItem('first_welcome');
+      if (!first_welcome) {
         $('#msg').text(data.welcome + '!!');
         $('#modal1').modal('open');
       }
+      sessionStorage.setItem('first_welcome', 'true');
     } else {
       $('#msg').text(data.message);
       $('#modal1').modal('open');

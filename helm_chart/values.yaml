@@ -4,7 +4,7 @@
 httpServicePort: &defaultServicePort 80
 tag: &defaultTag latest
 namespace: default
-clusterIP: 15.206.205.85
+clusterIP: 13.233.122.155
 clusterDomain: nip.io
 registry: &defaultRegistry apsgangwar # local-registry:5002
 imagePullPolicy: Always # IfNotPresent
