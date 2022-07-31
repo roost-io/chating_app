@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chating-app
+  namespace: '{{ .Values.namespace }}'
+  labels:
+    app: chating-app
+    type: roost-example
+spec:
+  ingressClassName: nginx
+  rules:
+    - host:
+        '{{ .Values.namespace }}.{{ .Values.services.chat_front.serviceName
+        }}.{{ .Values.clusterIP }}.{{ .Values.clusterDomain }}'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: '{{ .Values.services.chat_front.serviceName }}'
+                port:
+                  number: {{ .Values.services.chat_front.servicePort }}
+    - host:
+        '{{ .Values.namespace }}.{{ .Values.services.chat_svc.serviceName }}.{{
+        .Values.clusterIP }}.{{ .Values.clusterDomain }}'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: '{{ .Values.services.chat_svc.serviceName }}'
+                port:
+                  number: {{ .Values.services.chat_svc.servicePort }}
+    - host:
+        '{{ .Values.namespace }}.{{ .Values.services.chat_db.serviceName }}.{{
+        .Values.clusterIP }}.{{ .Values.clusterDomain }}'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: '{{ .Values.services.chat_db.serviceName }}'
+                port:
+                  number: {{ .Values.services.chat_db.servicePort }}

@@ -1,15 +1,14 @@
 pyms:
   services:
     requests:
-      data: ""
+      data: ''
     tracer:
-      client: "jaeger"
-      host: "localhost"
-      component_name: "Chat DaaS"
+      client: 'jaeger'
+      host: 'localhost'
+      component_name: 'Chat DaaS'
   config:
     DEBUG: false
     TESTING: false
     APP_NAME: project
     APPLICATION_ROOT: /
-    SECRET_KEY: "gjr39dkjn344_!67#"
-    service_host: http://10.10.0.10:31002
+    SECRET_KEY: 'gjr39dkjn344_!67#'

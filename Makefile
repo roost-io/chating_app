@@ -1,10 +1,17 @@
+all: build push deploy
 
 build:
-	docker build -t chat_db:v1 -f chat_db/Dockerfile chat_db/
-	docker build -t chat_svc:v1 -f chat_svc/Dockerfile chat_svc/
-	docker build -t chat_front:v1 -f chat_front/Dockerfile chat_front/
+	docker build -t apsgangwar/chat_db:latest ./chat_db/
+	docker build -t apsgangwar/chat_svc:latest ./chat_svc/
+	docker build -t apsgangwar/chat_front:latest ./chat_front/
+
+push:
+	docker push apsgangwar/chat_db
+	docker push apsgangwar/chat_svc
+	docker push apsgangwar/chat_front
 
 deploy:
-	helm upgrade --install chat-front ./helm_chart/chat_front/
-	helm upgrade --install chat-svc ./helm_chart/chat_svc/
-	helm upgrade --install chat-db ./helm_chart/chat_db/
+	helm upgrade --install chating-app ./helm_chart/
+
+clean:
+	helm uninstall chating-app

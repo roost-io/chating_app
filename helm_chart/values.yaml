@@ -1,0 +1,30 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+httpServicePort: &defaultServicePort 80
+tag: &defaultTag latest
+namespace: default
+clusterIP: 13.233.122.155
+clusterDomain: nip.io
+registry: &defaultRegistry apsgangwar # local-registry:5002
+imagePullPolicy: Always # IfNotPresent
+
+services:
+  chat_db:
+    imageName: chat_db # without registry-host and tag
+    imageTag: *defaultTag
+    serviceName: chat-db
+    servicePort: *defaultServicePort
+    replicaCount: 1
+  chat_front:
+    imageName: chat_front # without registry-host and tag
+    imageTag: *defaultTag
+    serviceName: chat-front
+    servicePort: *defaultServicePort
+    replicaCount: 1
+  chat_svc:
+    imageName: chat_svc # without registry-host and tag
+    imageTag: *defaultTag
+    serviceName: chat-svc
+    servicePort: *defaultServicePort
+    replicaCount: 1

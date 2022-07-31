@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-svc
+  namespace: '{{ .Values.namespace }}'
+  labels:
+    app: chat_svc
+    type: roost-example
+spec:
+  replicas: {{ .Values.services.chat_svc.replicaCount }}
+  selector:
+    matchLabels:
+      app: chat_svc
+      type: roost-example
+  template:
+    metadata:
+      labels:
+        app: chat_svc
+        type: roost-example
+    spec:
+      containers:
+        - name: chat-svc
+          image:
+            '{{- printf "%s/%s:%s" .Values.registry
+            .Values.services.chat_svc.imageName .Values.tag -}}'
+          imagePullPolicy: '{{ .Values.imagePullPolicy }}'
+          stdin: true
+          tty: true
+          env:
+            - name: CHAT_DB_HOST
+              value:
+                'http://{{ .Values.namespace }}.{{ .Values.services.chat_db.serviceName
+                }}.{{ .Values.clusterIP }}.{{ .Values.clusterDomain }}'
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: '{{ .Values.services.chat_svc.serviceName }}'
+  namespace: '{{ .Values.namespace }}'
+  labels:
+    app: chat_svc
+    type: roost-example
+spec:
+  ports:
+    - port: {{ .Values.services.chat_svc.servicePort }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: chat_svc
+    type: roost-example
