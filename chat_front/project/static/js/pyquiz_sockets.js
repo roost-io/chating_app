@@ -26,6 +26,7 @@ function randomInteger(min, max) {
 }
 
 function send_msg(response) {
+  if (!response) return;
   var msg = { message: response, username: username };
   console.log('Enviado mensaje: ');
   console.log(msg);

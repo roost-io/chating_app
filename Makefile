@@ -11,7 +11,7 @@ push:
 	docker push apsgangwar/chat_front
 
 deploy:
-	helm upgrade --install chating-app ./helm_chart/
+	helm upgrade chating-app ./helm_chart/ --install
 
 clean:
 	helm uninstall chating-app
